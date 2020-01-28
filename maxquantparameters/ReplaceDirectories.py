@@ -38,9 +38,9 @@ def main(parameters, dir, fastadir, threads, output):
             if f != file.text:
                 file.text = f
     if threads:
-        for numThreads in root.findall('.//numThreads'):
-            if str(threads) != numThreads.text:
-                numThreads.text = str(threads)
+        numThreads = root.find('.//numThreads')
+        if str(threads) != numThreads.text:
+            numThreads.text = str(threads)
     tree.write(output, encoding='unicode', xml_declaration=True, short_empty_elements=False)
 
 
