@@ -20,8 +20,10 @@ always_load("gcc/7.3.0")
 always_load("mono/5.16.0.179")
 always_load("python/3.7.4")
 
-local base = "~/projects/def-coulomb/maxquant"
-prepend_path("PATH", base)
-prepend_path("PATH", pathJoin(base,"current","bin"))
-prepend_path("PATH", "~/maxquant-coulombe-venv/bin")
-setenv("MAXQUANT_BASE", base)
+local home = os.getenv("HOME") or ""
+local venv = pathJoin(home, "maxquant-coulomb-venv")
+local installation = pathJoin(home, "projects/def-coulomb/maxquant")
+prepend_path("PATH", installation)
+prepend_path("PATH", pathJoin(venv, "bash"))
+prepend_path("PATH", pathJoin(venv, "bin"))
+setenv("MAXQUANT_BASE", installation)
