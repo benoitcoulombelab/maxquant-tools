@@ -3,7 +3,7 @@
 VENV="$HOME/maxquant-coulomb-venv"
 BASH="$VENV"/bash
 MAXQUANT="$VENV"/maxquant
-SEQTOOLS_BASH="$MAXQUANT"/bash
+MAXQUANT_BASH="$MAXQUANT"/bash
 EMAIL="$USER_EMAIL"
 
 if [ "$1" == "clean" ]
