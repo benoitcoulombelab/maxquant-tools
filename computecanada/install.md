@@ -36,7 +36,7 @@ ssh beluga.computecanada.ca
 ## Run installation script
 
 ```
-module load maxquant
+module load maxquant-coulomb
 install.sh
 ```
 
