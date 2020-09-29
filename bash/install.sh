@@ -4,7 +4,7 @@ VENV="$HOME/maxquant-coulomb-venv"
 BASH="$VENV"/bash
 MAXQUANT="$VENV"/maxquant
 MAXQUANT_BASH="$MAXQUANT"/bash
-EMAIL="$USER_EMAIL"
+EMAIL="$JOB_MAIL"
 
 if [ "$1" == "clean" ]
 then
