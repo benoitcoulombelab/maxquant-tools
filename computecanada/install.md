@@ -30,7 +30,7 @@ source .bash_profile
 ## Run installation script
 
 ```
-module load maxquant-coulomb
+module load maxquant
 install.sh
 ```
 
