@@ -21,7 +21,7 @@ always_load("mono/5.16.0.179")
 always_load("python/3.7.4")
 
 local home = os.getenv("HOME") or ""
-local venv = pathJoin(home, "maxquant-coulomb-venv")
+local venv = pathJoin(home, "maxquant-venv")
 local installation = pathJoin(home, "projects/def-coulomb/maxquant")
 prepend_path("PATH", installation)
 prepend_path("PATH", pathJoin(venv, "bash"))

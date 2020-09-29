@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VENV="$HOME/maxquant-coulomb-venv"
+VENV="$HOME/maxquant-venv"
 BASH="$VENV"/bash
 MAXQUANT="$VENV"/maxquant
 MAXQUANT_BASH="$MAXQUANT"/bash
