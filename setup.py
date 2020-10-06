@@ -20,6 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'replacedirectories = maxquantparameters.ReplaceDirectories:main',
+            'maxquant = maxquantparameters.MaxQuant:maxquant',
         ]
     }
 )
