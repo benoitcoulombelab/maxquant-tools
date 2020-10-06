@@ -1,7 +1,4 @@
-from datetime import datetime
-import os
 from pathlib import Path, PureWindowsPath
-from shutil import copyfile
 import sys
 
 import click
