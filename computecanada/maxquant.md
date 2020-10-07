@@ -17,18 +17,10 @@ See [Uploading dataset files to Compute Canada server](upload.md)
 Run the following command
 
 ```
-sbatch --cpus-per-task=$raws --mem=$mem maxquant.sh
+maxquant
 ```
 
-`$raws` is the number of raw files in your dataset. If you have more than 40 raw files, use `40`
-
-`$mem` should be equal to the number of raw files times 5 followed by the letter `G`. If you have more than 35 raw files, use `175G`
-
-For a dataset with 8 raw files, the command should be
-
-```
-sbatch --cpus-per-task=8 --mem=40G maxquant.sh
-```
+This will add a job to run MaxQuant using `sbatch` with 1 CPU and 5 GB of memory per sample.
 
 ## Download results
 
