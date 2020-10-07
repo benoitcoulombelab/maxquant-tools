@@ -6,7 +6,7 @@ import click
 from click.testing import CliRunner
 import pytest
 
-from maxquantparameters import MaxQuant as mq
+from maxquanttools import MaxQuant as mq
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def test_maxquant(testdir, mock_testclass):
     subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=10G', 'maxquant.sh'], check=True)
 
 
-def test_maxquant_parameters(testdir, mock_testclass):
+def test_maxquant_tools(testdir, mock_testclass):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     subprocess.run = MagicMock()
     runner = CliRunner()

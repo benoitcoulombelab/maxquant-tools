@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='MaxquantParameters',
+    name='MaxquantTools',
     version='0.1-SNAPSHOT',
     packages=find_packages(),
     author='Christian Poitras',
     author_email='christian.poitras@ircm.qc.ca',
-    description='Utilities for MaxQuant parameters',
+    description='Utilities for MaxQuant',
     keywords='bioinformatics, MaxQuant',
-    url='https://github.com/benoitcoulombelab/maxquant-parameters',
+    url='https://github.com/benoitcoulombelab/maxquant-tools',
     license='MIT License',
     classifiers=[
         'License :: OSI Approved :: MIT License'
@@ -19,8 +19,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'replacedirectories = maxquantparameters.ReplaceDirectories:replacedirectories',
-            'maxquant = maxquantparameters.MaxQuant:maxquant',
+            'replacedirectories = maxquanttools.ReplaceDirectories:replacedirectories',
+            'maxquant = maxquanttools.MaxQuant:maxquant',
         ]
     }
 )

@@ -1,4 +1,4 @@
-# maxquant-parameters
+# maxquant-tools
 
 Utilities to run MaxQuant on Compute Canada server
 

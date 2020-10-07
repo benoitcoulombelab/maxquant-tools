@@ -6,7 +6,7 @@ import unittest
 
 import click
 from click.testing import CliRunner
-from maxquantparameters import ReplaceDirectories as rd
+from maxquanttools import ReplaceDirectories as rd
 import xml.etree.ElementTree as ET
 
 

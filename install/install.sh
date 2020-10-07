@@ -24,11 +24,11 @@ then
 fi
 echo "Updating python libraries"
 pip uninstall -y MaxquantParameters
-pip install git+https://github.com/benoitcoulombelab/maxquant-parameters.git
+pip install git+https://github.com/benoitcoulombelab/maxquant-tools.git
 echo "Updating bash scripts"
 rm -R "$BASH"
 mkdir "$BASH"
-git clone --depth 1 https://github.com/benoitcoulombelab/maxquant-parameters.git "$MAXQUANT"
+git clone --depth 1 https://github.com/benoitcoulombelab/maxquant-tools.git "$MAXQUANT"
 cp "$MAXQUANT_BASH"/*.sh "$BASH"
 find "$BASH" -type f -name "*.sh" -exec sed -i "s/christian\.poitras@ircm\.qc\.ca/$EMAIL/g" {} \;
 rm -Rf "$MAXQUANT"
