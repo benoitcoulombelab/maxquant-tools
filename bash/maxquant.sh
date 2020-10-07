@@ -3,6 +3,8 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --mail-user=christian.poitras@ircm.qc.ca
 #SBATCH --mail-type=ALL
+#SBATCH --output=maxquant-%A.out
+#SBATCH --error=maxquant-%A.out
 
 # Start this script with this command and change parameters to proper values:
 # sbatch --cpus-per-task=8 --mem=40G maxquant.sh
