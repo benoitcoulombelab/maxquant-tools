@@ -37,5 +37,5 @@ install.sh
 ## Try MaxQuant
 
 ```
-replacedirectories --help
+maxquant --help
 ```
