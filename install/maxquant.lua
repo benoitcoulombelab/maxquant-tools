@@ -22,8 +22,9 @@ always_load("python/3.7.4")
 
 local home = os.getenv("HOME") or ""
 local venv = pathJoin(home, "maxquant-venv")
-local installation = pathJoin(home, "projects/def-coulomb/maxquant-parameters")
-prepend_path("PATH", pathJoin(installation, "install"))
+local maxquant = pathJoin(home, "projects/def-coulomb/maxquant")
+local maxquant_parameters = pathJoin(home, "projects/def-coulomb/maxquant-parameters")
+prepend_path("PATH", pathJoin(maxquant_parameters, "install"))
 prepend_path("PATH", pathJoin(venv, "bash"))
 prepend_path("PATH", pathJoin(venv, "bin"))
-setenv("MAXQUANT_BASE", installation)
+setenv("MAXQUANT_BASE", maxquant)
