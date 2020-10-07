@@ -6,17 +6,17 @@ import unittest
 
 import click
 from click.testing import CliRunner
-from maxquantparameters import ReplaceDirectories
+from maxquantparameters import ReplaceDirectories as rd
 import xml.etree.ElementTree as ET
 
 
-def test_main_windows(testdir):
+def test_replacedirectories_windows(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     fastadir = PureWindowsPath('C:\\home\\poitrac\\fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
@@ -25,12 +25,12 @@ def test_main_windows(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_windowsnofastadir(testdir):
+def test_replacedirectories_windowsnofastadir(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert dir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
@@ -39,13 +39,13 @@ def test_main_windowsnofastadir(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_windowsandthreads(testdir):
+def test_replacedirectories_windowsandthreads(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     fastadir = PureWindowsPath('C:\\home\\poitrac\\fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
@@ -54,13 +54,13 @@ def test_main_windowsandthreads(testdir):
     assert '4' == root.find('.//numThreads').text
 
 
-def test_main_windows2linux(testdir):
+def test_replacedirectories_windows2linux(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = Path('/home/poitrac/maxquant_test')
     fastadir = Path('/home/poitrac/fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta'), Path(root.find('.//fastaFilePath').text)
@@ -69,12 +69,12 @@ def test_main_windows2linux(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_windows2linuxnofastadir(testdir):
+def test_replacedirectories_windows2linuxnofastadir(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = Path('/home/poitrac/maxquant_test')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert dir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
@@ -83,13 +83,13 @@ def test_main_windows2linuxnofastadir(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_windows2linuxandthreads(testdir):
+def test_replacedirectories_windows2linuxandthreads(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     dir = Path('/home/poitrac/maxquant_test')
     fastadir = Path('/home/poitrac/fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta'), Path(root.find('.//fastaFilePath').text)
@@ -98,13 +98,13 @@ def test_main_windows2linuxandthreads(testdir):
     assert '4' == root.find('.//numThreads').text
 
 
-def test_main_linux(testdir):
+def test_replacedirectories_linux(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = Path('/home/poitrac/maxquant_test')
     fastadir = Path('/home/poitrac/fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
@@ -113,12 +113,12 @@ def test_main_linux(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_linuxnofastadir(testdir):
+def test_replacedirectories_linuxnofastadir(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = Path('/home/poitrac/maxquant_test')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert dir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
@@ -127,13 +127,13 @@ def test_main_linuxnofastadir(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_linuxandthreads(testdir):
+def test_replacedirectories_linuxandthreads(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = Path('/home/poitrac/maxquant_test')
     fastadir = Path('/home/poitrac/fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
@@ -142,13 +142,13 @@ def test_main_linuxandthreads(testdir):
     assert '4' == root.find('.//numThreads').text
 
 
-def test_main_linux2windowds(testdir):
+def test_replacedirectories_linux2windowds(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     fastadir = PureWindowsPath('C:\\home\\poitrac\\fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
@@ -157,12 +157,12 @@ def test_main_linux2windowds(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_linux2windowdsnofastadir(testdir):
+def test_replacedirectories_linux2windowdsnofastadir(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir)])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir)])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert dir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
@@ -171,13 +171,13 @@ def test_main_linux2windowdsnofastadir(testdir):
     assert '2' == root.find('.//numThreads').text
 
 
-def test_main_linux2windowdsandthreads(testdir):
+def test_replacedirectories_linux2windowdsandthreads(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     fastadir = PureWindowsPath('C:\\home\\poitrac\\fastas')
     runner = CliRunner()
-    result = runner.invoke(ReplaceDirectories.main, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '-t', '4'])
     assert 0 == result.exit_code
     root = ET.fromstring(result.output)
     assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
