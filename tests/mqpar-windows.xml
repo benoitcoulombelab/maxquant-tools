@@ -130,7 +130,7 @@
    <calcPeakProperties>False</calcPeakProperties>
    <showCentroidMassDifferences>False</showCentroidMassDifferences>
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
-   <useDotNetCore>False</useDotNetCore>
+   <useDotNetCore>True</useDotNetCore>
    <filePaths>
       <string>V:\Laboratoires\Coulombe\_ARCHIVES\Cloutier-201911-JProteomeRes-PrideData\OF_20190610_COU_01.raw</string>
       <string>V:\Laboratoires\Coulombe\_ARCHIVES\Cloutier-201911-JProteomeRes-PrideData\OF_20190610_COU_02.raw</string>

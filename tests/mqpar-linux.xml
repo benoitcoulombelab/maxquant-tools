@@ -130,7 +130,7 @@
    <calcPeakProperties>False</calcPeakProperties>
    <showCentroidMassDifferences>False</showCentroidMassDifferences>
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
-   <useDotNetCore>False</useDotNetCore>
+   <useDotNetCore>True</useDotNetCore>
    <filePaths>
       <string>/home/poitrac/Cloutier-201911/OF_20190610_COU_01.raw</string>
       <string>/home/poitrac/Cloutier-201911/OF_20190610_COU_02.raw</string>

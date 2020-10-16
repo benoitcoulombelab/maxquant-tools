@@ -14,9 +14,11 @@ import xml.etree.ElementTree as ET
               help='Directory to use for fasta file. Defaults to the same as --dir if defined, otherwise does not change parameter file.')
 @click.option('--threads', '-t', type=int,
               help='Numbers of threads to use. Defaults to not changing parameter file.')
+@click.option('--disable-core/--keep-core', default=True, show_default=True,
+              help='Disables .NET core requirement. Must be True for Linux.')
 @click.option('--output', '-o', type=click.Path(),
               help='Where to write modified file. Defaults to standard output.')
-def replacedirectories(parameters, dir, fastadir, threads, output):
+def replacedirectories(parameters, dir, fastadir, threads, disable_core, output):
     '''Replaces directories and threads in MaxQuant parameter file.'''
     if not fastadir and dir:
         fastadir = dir
@@ -38,6 +40,9 @@ def replacedirectories(parameters, dir, fastadir, threads, output):
         numThreads = root.find('.//numThreads')
         if str(threads) != numThreads.text:
             numThreads.text = str(threads)
+    if disable_core:
+        for useDotNetCore in root.findall('.//useDotNetCore'):
+            useDotNetCore.text = 'False'
     tree.write(output, encoding='unicode', xml_declaration=True, short_empty_elements=False)
 
 

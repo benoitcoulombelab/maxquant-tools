@@ -23,6 +23,7 @@ def test_replacedirectories_windows(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_windowsnofastadir(testdir):
@@ -37,6 +38,7 @@ def test_replacedirectories_windowsnofastadir(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_windowsandthreads(testdir):
@@ -52,6 +54,7 @@ def test_replacedirectories_windowsandthreads(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '4' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_windows2linux(testdir):
@@ -67,6 +70,23 @@ def test_replacedirectories_windows2linux(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
+
+
+def test_replacedirectories_windowskeepcore(testdir):
+    parent = Path(__file__).parent
+    parameters = parent.joinpath('mqpar-windows.xml')
+    dir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
+    fastadir = PureWindowsPath('C:\\home\\poitrac\\fastas')
+    runner = CliRunner()
+    result = runner.invoke(rd.replacedirectories, ['-p', parameters, '-d', str(dir), '-fd', str(fastadir), '--keep-core'])
+    assert 0 == result.exit_code
+    root = ET.fromstring(result.output)
+    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(root.find('.//fastaFilePath').text)
+    assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
+    assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
+    assert '2' == root.find('.//numThreads').text
+    assert 'True' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_windows2linuxnofastadir(testdir):
@@ -81,6 +101,7 @@ def test_replacedirectories_windows2linuxnofastadir(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_windows2linuxandthreads(testdir):
@@ -96,6 +117,7 @@ def test_replacedirectories_windows2linuxandthreads(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '4' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linux(testdir):
@@ -111,6 +133,7 @@ def test_replacedirectories_linux(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linuxnofastadir(testdir):
@@ -125,6 +148,7 @@ def test_replacedirectories_linuxnofastadir(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linuxandthreads(testdir):
@@ -140,6 +164,7 @@ def test_replacedirectories_linuxandthreads(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
     assert '4' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linux2windowds(testdir):
@@ -155,6 +180,7 @@ def test_replacedirectories_linux2windowds(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linux2windowdsnofastadir(testdir):
@@ -169,6 +195,7 @@ def test_replacedirectories_linux2windowdsnofastadir(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
 
 
 def test_replacedirectories_linux2windowdsandthreads(testdir):
@@ -184,3 +211,4 @@ def test_replacedirectories_linux2windowdsandthreads(testdir):
     assert dir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
     assert dir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
     assert '4' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
