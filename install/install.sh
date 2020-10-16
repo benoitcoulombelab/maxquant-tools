@@ -23,7 +23,7 @@ then
     python3 -m venv "$VENV"
 fi
 echo "Updating python libraries"
-pip uninstall -y MaxquantParameters
+pip uninstall -y MaxquantTools
 pip install git+https://github.com/benoitcoulombelab/maxquant-tools.git
 echo "Updating bash scripts"
 rm -R "$BASH"
