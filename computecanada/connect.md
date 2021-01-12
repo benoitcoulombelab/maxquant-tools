@@ -4,7 +4,6 @@
 
 ```
 ssh beluga.computecanada.ca
-module load maxquant
 cd scratch
 ls
 cd $dataset_name

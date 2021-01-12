@@ -14,9 +14,10 @@ See [Uploading dataset files to Compute Canada server](upload.md)
 
 ## Run MaxQuant
 
-Run the following command
+Run the following commands
 
 ```
+module load maxquant
 maxquant
 ```
 
