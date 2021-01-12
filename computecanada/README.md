@@ -2,7 +2,7 @@
 
 #### General tutorials
 
-* [Install MaxQuant](install.md)
+* [Install/Update/Delete MaxQuant tools](install.md)
 * [Connecting to Compute Canada to use MaxQuant](connect.md)
 * [Uploading dataset files to Compute Canada](upload.md)
 

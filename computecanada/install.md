@@ -1,8 +1,16 @@
-# Install MaxQuant on Compute Canada servers
+# Install/Update/Delete MaxQuant tools on Compute Canada servers
 
 :memo: *The examples use Beluga server*
 
-## Connect to the server
+#### Options
+
+* [Install](#install-maxquant-tools)
+* [Udate](#update-maxquant-tools)
+* [Delete](#delete-maxquant-tools)
+
+## Install MaxQuant tools
+
+### Connect to the server
 
 Use SSH command inside a terminal on [Mac](https://support.apple.com/en-ca/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac), Linux or [Windows 10 (PowerShell)](https://www.howtogeek.com/662611/9-ways-to-open-powershell-in-windows-10/)
 
@@ -12,7 +20,7 @@ On older versions of Windows, use [Putty](https://www.putty.org)
 ssh beluga.computecanada.ca
 ```
 
-## Run the configuration script
+### Run the configuration script
 
 ```
 curl https://raw.githubusercontent.com/benoitcoulombelab/maxquant-tools/master/install/configure.sh >> configure.sh
@@ -27,15 +35,33 @@ rm configure.sh
 source .bash_profile
 ```
 
-## Run installation script
+### Run installation script
 
 ```
 module load maxquant
 install.sh
 ```
 
-## Try MaxQuant
+### Try MaxQuant
 
 ```
 maxquant --help
+```
+
+## Update MaxQuant tools
+
+### Run installation script
+
+```
+module load maxquant
+install.sh
+```
+
+## Delete MaxQuant tools
+
+### Run installation script with `clean` option
+
+```
+module load maxquant
+install.sh clean
 ```
