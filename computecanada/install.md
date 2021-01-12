@@ -2,13 +2,16 @@
 
 :memo: *The examples use Beluga server*
 
+
 #### Options
 
+* [Requirements](#requirements)
 * [Install](#install-maxquant-tools)
 * [Udate](#update-maxquant-tools)
 * [Delete](#delete-maxquant-tools)
 
-## Install MaxQuant tools
+
+## Requirements
 
 ### Connect to the server
 
@@ -35,31 +38,36 @@ rm configure.sh
 source .bash_profile
 ```
 
-### Run installation script
+
+## Install MaxQuant tools
+
+Run installation script
 
 ```
 module load maxquant
 install.sh
 ```
 
-### Try MaxQuant
+Try MaxQuant
 
 ```
 maxquant --help
 ```
 
+
 ## Update MaxQuant tools
 
-### Run installation script
+Run installation script
 
 ```
 module load maxquant
 install.sh
 ```
 
+
 ## Delete MaxQuant tools
 
-### Run installation script with `clean` option
+Run installation script with `clean` option
 
 ```
 module load maxquant
