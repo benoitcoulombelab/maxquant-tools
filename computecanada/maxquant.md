@@ -1,6 +1,6 @@
 # MaxQuant
 
-:information_source: *[Connecting to Compute Canada server](connect.md)*
+:link: *[Connecting to Compute Canada server](connect.md)*
 
 #### Steps
 
