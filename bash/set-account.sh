@@ -1,10 +1,10 @@
-VENV="$HOME/robtools-venv"
+VENV="$HOME/maxquant-venv"
 BASH="$VENV"/bash
 ACCOUNT=$1
 
 if [[ ! "$ACCOUNT" =~ ^def-[a-zA-Z0-9]+$ ]]
 then
-    echo "You must supply your account id (ex: def-robertf) as the first argument"
+    echo "You must supply your account id (ex: def-coulomb) as the first argument"
     exit 1
 fi
 
