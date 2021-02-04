@@ -1,8 +1,6 @@
-import os
 import subprocess
 
 import click
-from numpy.core._asarray import require
 
 import xml.etree.ElementTree as ET
 
