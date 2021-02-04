@@ -1,7 +1,6 @@
 #!/bin/bash
 #SBATCH --account=def-coulomb
 #SBATCH --time=5-00:00:00
-#SBATCH --mail-user=christian.poitras@ircm.qc.ca
 #SBATCH --mail-type=ALL
 #SBATCH --output=maxquant-%A.out
 #SBATCH --error=maxquant-%A.out
