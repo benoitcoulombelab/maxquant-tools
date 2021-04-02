@@ -1,3 +1,15 @@
+if [ "$1" == "clean" ] ; then
+    echo "Removing changes made to .bash_profile"
+    INDEX=$(grep -n "alias sbatch=" ~/.bash_profile | cut -d: -f1)
+    sed -i "$((INDEX)),$((INDEX+1))d" ~/.bash_profile
+    INDEX=$(grep -n "source .coulomb_modules" ~/.bash_profile | cut -d: -f1)
+    sed -i "$((INDEX-1)),$((INDEX+2))d" ~/.bash_profile
+    if [ -f ~/.coulomb_addons ] ; then
+        rm ~/.coulomb_addons
+    fi
+    exit 0
+fi
+
 EMAIL=$1
 if [[ ! "$EMAIL" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$ ]] ; then
     echo "You must supply your email address as the first argument"
