@@ -28,7 +28,7 @@ def test_maxquant(testdir, mock_testclass):
     runner = CliRunner()
     result = runner.invoke(mq.maxquant, ['-p', parameters, '--mail', mail])
     assert result.exit_code == 0
-    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=10G', '--mail-user=' + mail, 'maxquant.sh'], check=True)
+    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=10G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'], check=True)
 
 
 def test_maxquant_parameters(testdir, mock_testclass):
@@ -38,7 +38,7 @@ def test_maxquant_parameters(testdir, mock_testclass):
     runner = CliRunner()
     result = runner.invoke(mq.maxquant, ['-p', parameters, '-c', '1', '-m', '7', '--mail', mail])
     assert result.exit_code == 0
-    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=1', '--mem=7G', '--mail-user=' + mail, 'maxquant.sh'], check=True)
+    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=1', '--mem=7G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'], check=True)
 
 
 def test_maxquant_minimum_memory(testdir, mock_testclass):
@@ -48,7 +48,7 @@ def test_maxquant_minimum_memory(testdir, mock_testclass):
     runner = CliRunner()
     result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
     assert result.exit_code == 0
-    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-user=' + mail, 'maxquant.sh'], check=True)
+    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'], check=True)
 
 
 def test_maxquant_mailenv(testdir, mock_testclass, mock_env_mail):
@@ -57,7 +57,7 @@ def test_maxquant_mailenv(testdir, mock_testclass, mock_env_mail):
     runner = CliRunner()
     result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2'])
     assert result.exit_code == 0
-    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-user=christian.poitras@ircm.qc.ca', 'maxquant.sh'], check=True)
+    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca', 'maxquant.sh'], check=True)
 
 
 def test_maxquant_mailenvandparameter(testdir, mock_testclass, mock_env_mail):
@@ -67,4 +67,4 @@ def test_maxquant_mailenvandparameter(testdir, mock_testclass, mock_env_mail):
     runner = CliRunner()
     result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
     assert result.exit_code == 0
-    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-user=' + mail, 'maxquant.sh'], check=True)
+    subprocess.run.assert_any_call(['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'], check=True)
