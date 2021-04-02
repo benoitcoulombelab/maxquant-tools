@@ -6,8 +6,9 @@ then
 fi
 
 # Set user's email.
-if grep -Fq "JOB_MAIL" ~/.bash_profile ; then
-  echo "Email address environment variables present in .bash_profile"
+if grep -Fq "export JOB_MAIL=" ~/.bash_profile ; then
+  echo "Replacing email address environment variables present in .bash_profile"
+  sed -i -E "s/export JOB_MAIL=.+/export JOB_MAIL=$EMAIL/" ~/.bash_profile
 else
   echo "Adding email address to environment variables in .bash_profile"
   echo "export JOB_MAIL=$EMAIL" >> ~/.bash_profile
