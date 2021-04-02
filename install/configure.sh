@@ -15,6 +15,13 @@ else
   echo "" >> ~/.bash_profile
 fi
 
+# Make sbatch send mail to user by default.
+if ! grep -Fq "alias sbatch=" ~/.bash_profile ; then
+  echo "Adding email notification for sbatch"
+  echo "alias sbatch='sbatch --mail-type=ALL --mail-user=$JOB_MAIL'" >> ~/.bash_profile
+  echo "" >> ~/.bash_profile
+fi
+
 # Remove direct configuration of coulomb modules, if present.
 if grep -Fq "COULOMB_MODULES_DIR=" ~/.bash_profile ; then
   echo "Removing coulomb modules from .bash_profile"
