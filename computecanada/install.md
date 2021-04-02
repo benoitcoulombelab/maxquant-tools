@@ -27,8 +27,7 @@ ssh beluga.computecanada.ca
 
 ```
 curl https://raw.githubusercontent.com/benoitcoulombelab/maxquant-tools/master/install/configure.sh >> configure.sh
-chmod 744 configure.sh
-./configure.sh $email@ircm.qc.ca
+bash configure.sh $email@ircm.qc.ca
 ```
 
 Replace `$email@ircm.qc.ca` with your email address
