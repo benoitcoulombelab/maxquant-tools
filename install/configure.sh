@@ -42,7 +42,7 @@ if grep -Fq "COULOMB_MODULES_DIR=" ~/.bash_profile ; then
     sed -i "$((INDEX-1)),$((INDEX+4))d" ~/.bash_profile
 fi
 
-# Source .coulomb_modules file on login.
+# Source .coulomb_addons file on login.
 if ! grep -Fq "source .coulomb_addons" ~/.bash_profile ; then
     echo "Adding coulomb addons"
     echo 'if [ -f .coulomb_addons ]; then' >> ~/.bash_profile
