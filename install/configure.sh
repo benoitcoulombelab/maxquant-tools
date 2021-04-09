@@ -2,7 +2,7 @@ if [ "$1" == "clean" ] ; then
     echo "Removing changes made to .bash_profile"
     INDEX=$(grep -n "alias sbatch=" ~/.bash_profile | cut -d: -f1)
     sed -i "$((INDEX)),$((INDEX+1))d" ~/.bash_profile
-    INDEX=$(grep -n "source .coulomb_modules" ~/.bash_profile | cut -d: -f1)
+    INDEX=$(grep -n "source .coulomb_addons" ~/.bash_profile | cut -d: -f1)
     sed -i "$((INDEX-1)),$((INDEX+2))d" ~/.bash_profile
     if [ -f ~/.coulomb_addons ] ; then
         rm ~/.coulomb_addons
