@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ "$1" == "clean" ] ; then
     echo "Removing changes made to .bash_profile"
     INDEX=$(grep -n "alias sbatch=" ~/.bash_profile | cut -d: -f1)
