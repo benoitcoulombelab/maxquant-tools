@@ -56,8 +56,8 @@ if [ -f ~/.coulomb_addons ] ; then
     rm ~/.coulomb_addons
 fi
 echo "## Coulombe Lab Modules ##" >> ~/.coulomb_addons
-echo "COULOMB_MODULES_DIR=~/projects/def-coulomb/modules" >> ~/.coulomb_addons
-echo 'if [ -d "$COULOMB_MODULES_DIR" ]; then' >> ~/.coulomb_addons
-echo '  module use $COULOMB_MODULES_DIR' >> ~/.coulomb_addons
+echo "MODULES_DIR=~/projects/def-coulomb/modules" >> ~/.coulomb_addons
+echo 'if [ -d "$MODULES_DIR" ]; then' >> ~/.coulomb_addons
+echo '  module use $MODULES_DIR' >> ~/.coulomb_addons
 echo 'fi' >> ~/.coulomb_addons
 echo "" >> ~/.coulomb_addons
