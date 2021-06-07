@@ -15,4 +15,4 @@ then
 fi
 
 replacedirectories "${rdargs[@]}"
-mono "$MAXQUANT_BASE"/current/bin/MaxQuantCmd.exe ./mqpar-run.xml
+mono "$MAXQUANT"/bin/MaxQuantCmd.exe ./mqpar-run.xml
