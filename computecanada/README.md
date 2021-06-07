@@ -2,7 +2,8 @@
 
 #### General tutorials
 
-* [Install/Update/Delete MaxQuant tools](install.md)
+* [Configuring modules - one time only](https://github.com/benoitcoulombelab/modules#configure)
+* [Emails - to receive emails when running jobs](https://github.com/benoitcoulombelab/modules#emails)
 * [Connecting to Compute Canada to use MaxQuant](connect.md)
 * [Uploading dataset files to Compute Canada](upload.md)
 
