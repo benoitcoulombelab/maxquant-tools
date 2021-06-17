@@ -20,7 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'fixparameters = maxquanttools.FixParameters:fixparameters',
-            'maxquant = maxquanttools.MaxQuant:maxquant',
+            'maxquant = maxquanttools.Maxquant:maxquant',
         ]
     }
 )
