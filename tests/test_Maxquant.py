@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 from click.testing import CliRunner
 
-from maxquanttools import Maxquant as mq
+from maxquanttools import Maxquant
 
 
 @pytest.fixture
@@ -25,7 +25,7 @@ def test_maxquant(testdir, mock_testclass):
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
     runner = CliRunner()
-    result = runner.invoke(mq.maxquant, ['-p', parameters, '--mail', mail])
+    result = runner.invoke(Maxquant.maxquant, ['-p', parameters, '--mail', mail])
     assert result.exit_code == 0
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=2', '--mem=10G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'],
@@ -37,7 +37,7 @@ def test_maxquant_parameters(testdir, mock_testclass):
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
     runner = CliRunner()
-    result = runner.invoke(mq.maxquant, ['-p', parameters, '-c', '1', '-m', '7', '--mail', mail])
+    result = runner.invoke(Maxquant.maxquant, ['-p', parameters, '-c', '1', '-m', '7', '--mail', mail])
     assert result.exit_code == 0
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=1', '--mem=7G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'],
@@ -49,7 +49,7 @@ def test_maxquant_minimum_memory(testdir, mock_testclass):
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
     runner = CliRunner()
-    result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
+    result = runner.invoke(Maxquant.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
     assert result.exit_code == 0
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'],
@@ -60,7 +60,7 @@ def test_maxquant_mailenv(testdir, mock_testclass, mock_env_mail):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     subprocess.run = MagicMock()
     runner = CliRunner()
-    result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2'])
+    result = runner.invoke(Maxquant.maxquant, ['-p', parameters, '-m', '2'])
     assert result.exit_code == 0
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca',
@@ -72,7 +72,7 @@ def test_maxquant_mailenvandparameter(testdir, mock_testclass, mock_env_mail):
     mail = 'test@ircm.qc.ca'
     subprocess.run = MagicMock()
     runner = CliRunner()
-    result = runner.invoke(mq.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
+    result = runner.invoke(Maxquant.maxquant, ['-p', parameters, '-m', '2', '--mail', mail])
     assert result.exit_code == 0
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=2', '--mem=6G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'],

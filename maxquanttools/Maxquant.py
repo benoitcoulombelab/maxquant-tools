@@ -1,5 +1,5 @@
 import subprocess
-import xml.etree.ElementTree as eTree
+from xml.etree import ElementTree
 
 import click
 
@@ -18,7 +18,7 @@ import click
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
 def maxquant(parameters, max_cpu, max_mem, maxquant_args, mail):
     """Fixes parameter file and starts MaxQuant using sbatch."""
-    tree = eTree.parse(parameters)
+    tree = ElementTree.parse(parameters)
     root = tree.getroot()
     samples = len(root.findall('./filePaths/string'))
     threads = min(samples, max_cpu)  # One CPU per sample

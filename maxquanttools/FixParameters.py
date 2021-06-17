@@ -1,6 +1,6 @@
 import sys
-import xml.etree.ElementTree as eTree
 from pathlib import Path, PureWindowsPath
+from xml.etree import ElementTree
 
 import click
 
@@ -25,7 +25,7 @@ def fixparameters(parameters, rawdir, fastadir, threads, disable_core, output):
         fastadir = rawdir
     if not output:
         output = sys.stdout
-    tree = eTree.parse(parameters)
+    tree = ElementTree.parse(parameters)
     root = tree.getroot()
     if fastadir:
         for fasta_file_path in root.findall('.//fastaFilePath'):
