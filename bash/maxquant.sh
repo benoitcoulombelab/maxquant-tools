@@ -9,7 +9,7 @@
 # sbatch --cpus-per-task=8 --mem=40G maxquant.sh
 
 fixargs=("-p" "mqpar.xml" "-d" "$PWD" "-o" "mqpar-run.xml")
-if [ ! -z "$SLURM_CPUS_PER_TASK" ]
+if [ -n "$SLURM_CPUS_PER_TASK" ]
 then
   fixargs+=("-t" "$SLURM_CPUS_PER_TASK")
 fi
