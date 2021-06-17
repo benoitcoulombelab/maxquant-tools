@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'replacedirectories = maxquanttools.ReplaceDirectories:replacedirectories',
+            'fixparameters = maxquanttools.FixParameters:fixparameters',
             'maxquant = maxquanttools.MaxQuant:maxquant',
         ]
     }

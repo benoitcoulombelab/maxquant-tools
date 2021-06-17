@@ -19,8 +19,8 @@ import click
               help='Disables .NET core requirement. Must be True for Linux.')
 @click.option('--output', '-o', type=click.Path(),
               help='Where to write modified file. Defaults to standard output.')
-def replacedirectories(parameters, dir, fastadir, threads, disable_core, output):
-    """Replaces directories and threads in MaxQuant parameter file."""
+def fixparameters(parameters, dir, fastadir, threads, disable_core, output):
+    """Fixes MaxQuant parameters by replacing directories and fixing threads."""
     if not fastadir and dir:
         fastadir = dir
     if not output:
@@ -66,4 +66,4 @@ def create_path(path):
 
 
 if __name__ == '__main__':
-    replacedirectories()
+    fixparameters()

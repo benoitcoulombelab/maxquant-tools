@@ -8,11 +8,11 @@
 # Start this script with this command and change parameters to proper values:
 # sbatch --cpus-per-task=8 --mem=40G maxquant.sh
 
-rdargs=("-p" "mqpar.xml" "-d" "$PWD" "-o" "mqpar-run.xml")
+fixargs=("-p" "mqpar.xml" "-d" "$PWD" "-o" "mqpar-run.xml")
 if [ ! -z "$SLURM_CPUS_PER_TASK" ]
 then
-  rdargs+=("-t" "$SLURM_CPUS_PER_TASK")
+  fixargs+=("-t" "$SLURM_CPUS_PER_TASK")
 fi
 
-replacedirectories "${rdargs[@]}"
+fixparameters "${fixargs[@]}"
 mono "$MAXQUANT"/bin/MaxQuantCmd.exe ./mqpar-run.xml
