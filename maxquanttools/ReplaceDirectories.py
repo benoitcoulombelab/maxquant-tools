@@ -43,6 +43,9 @@ def replacedirectories(parameters, dir, fastadir, threads, disable_core, output)
     if disable_core:
         for useDotNetCore in root.findall('.//useDotNetCore'):
             useDotNetCore.text = 'False'
+    # Force writing mzTab output file.
+    for writeMzTab in root.findall('.//writeMzTab'):
+        writeMzTab.text = 'True'
     tree.write(output, encoding='unicode', xml_declaration=True, short_empty_elements=False)
 
 
