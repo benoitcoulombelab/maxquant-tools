@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='MaxquantTools',
-    version='0.1',
+    version='1.0-SNAPSHOT',
     packages=find_packages(),
     author='Christian Poitras',
     author_email='christian.poitras@ircm.qc.ca',
