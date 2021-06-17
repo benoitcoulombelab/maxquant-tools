@@ -8,7 +8,7 @@ import click
 @click.command()
 @click.option('--parameters', '-p', type=click.Path(exists=True), default='mqpar.xml', show_default=True,
               help='MaxQuant parameter file.')
-@click.option('--dir', '-d', type=click.Path(),
+@click.option('--rawdir', '-d', type=click.Path(),
               help='Directory to use for RAW files. Defaults to not changing parameter file.')
 @click.option('--fastadir', '-fd', type=click.Path(),
               help='Directory to use for fasta file. Defaults to the same as --dir if defined,' +
@@ -19,10 +19,10 @@ import click
               help='Disables .NET core requirement. Must be True for Linux.')
 @click.option('--output', '-o', type=click.Path(),
               help='Where to write modified file. Defaults to standard output.')
-def fixparameters(parameters, dir, fastadir, threads, disable_core, output):
+def fixparameters(parameters, rawdir, fastadir, threads, disable_core, output):
     """Fixes MaxQuant parameters by replacing directories and fixing threads."""
-    if not fastadir and dir:
-        fastadir = dir
+    if not fastadir and rawdir:
+        fastadir = rawdir
     if not output:
         output = sys.stdout
     tree = eTree.parse(parameters)
@@ -32,9 +32,9 @@ def fixparameters(parameters, dir, fastadir, threads, disable_core, output):
             fasta = update_dir(fasta_file_path.text, fastadir)
             if fasta != fasta_file_path.text:
                 fasta_file_path.text = fasta
-    if dir:
+    if rawdir:
         for file in root.findall('./filePaths/string'):
-            f = update_dir(file.text, dir)
+            f = update_dir(file.text, rawdir)
             if f != file.text:
                 file.text = f
     if threads:
@@ -50,11 +50,11 @@ def fixparameters(parameters, dir, fastadir, threads, disable_core, output):
     tree.write(output, encoding='unicode', xml_declaration=True, short_empty_elements=False)
 
 
-def update_dir(file, dir):
-    """Updates file's directory with dir."""
+def update_dir(file, directory):
+    """Updates file's directory with directory."""
     file = create_path(file)
-    dir = create_path(dir)
-    return str(dir.joinpath(file.name))
+    directory = create_path(directory)
+    return str(directory.joinpath(file.name))
 
 
 def create_path(path):
