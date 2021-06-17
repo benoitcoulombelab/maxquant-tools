@@ -1,8 +1,7 @@
 import subprocess
+import xml.etree.ElementTree as eTree
 
 import click
-
-import xml.etree.ElementTree as ET
 
 
 @click.command(context_settings=dict(
@@ -18,14 +17,15 @@ import xml.etree.ElementTree as ET
               help='Email address for notification.')
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
 def maxquant(parameters, max_cpu, max_mem, maxquant_args, mail):
-    '''Fixes parameter file and starts MaxQuant using sbatch.'''
-    tree = ET.parse(parameters)
+    """Fixes parameter file and starts MaxQuant using sbatch."""
+    tree = eTree.parse(parameters)
     root = tree.getroot()
     samples = len(root.findall('./filePaths/string'))
     threads = min(samples, max_cpu)  # One CPU per sample
     mem = min(samples * 5, max_mem)  # 5GB of memory per samples
     mem = max(mem, 6)  # Minimum of 6GB of memory
-    cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquant.sh'] + list(maxquant_args)
+    cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL',
+           '--mail-user=' + mail, 'maxquant.sh'] + list(maxquant_args)
     subprocess.run(cmd, check=True)
 
 
