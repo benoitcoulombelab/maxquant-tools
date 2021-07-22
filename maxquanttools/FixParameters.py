@@ -11,7 +11,10 @@ import click
 @click.option('--rawdir', '-d', type=click.Path(),
               help='Directory to use for RAW files. Defaults to not changing parameter file.')
 @click.option('--fastadir', '-fd', type=click.Path(),
-              help='Directory to use for fasta file. Defaults to the same as --dir if defined,' +
+              help='Directory to use for fasta file. Defaults to the same as --rawdir if defined,' +
+                   ' otherwise does not change parameter file.')
+@click.option('--diadir', type=click.Path(),
+              help='Directory to use for DIA library/discovery files. Defaults to the same as --rawdir if defined,' +
                    ' otherwise does not change parameter file.')
 @click.option('--threads', '-t', type=int,
               help='Numbers of threads to use. Defaults to not changing parameter file.')
@@ -19,22 +22,41 @@ import click
               help='Disables .NET core requirement. Must be True for Linux.')
 @click.option('--output', '-o', type=click.Path(),
               help='Where to write modified file. Defaults to standard output.')
-def fixparameters(parameters, rawdir, fastadir, threads, disable_core, output):
+def fixparameters(parameters, rawdir, fastadir, diadir, threads, disable_core, output):
     """Fixes MaxQuant parameters by replacing directories and fixing threads."""
     if not fastadir and rawdir:
         fastadir = rawdir
+    if not diadir and rawdir:
+        diadir = rawdir
     if not output:
         output = sys.stdout
     tree = ElementTree.parse(parameters)
     root = tree.getroot()
     if fastadir:
         for fasta_file_path in root.findall('.//fastaFilePath'):
-            fasta = update_dir(fasta_file_path.text, fastadir)
+            fasta = update_dir(fasta_file_path.text.strip(), fastadir)
             if fasta != fasta_file_path.text:
                 fasta_file_path.text = fasta
     if rawdir:
         for file in root.findall('./filePaths/string'):
-            f = update_dir(file.text, rawdir)
+            f = update_dir(file.text.strip(), rawdir)
+            if f != file.text:
+                file.text = f
+    if diadir:
+        for file in root.findall('.//diaLibraryPath/string'):
+            f = update_dir(file.text.strip(), diadir)
+            if f != file.text:
+                file.text = f
+        for file in root.findall('.//diaPeptidePaths/string'):
+            f = update_dir(file.text.strip(), diadir)
+            if f != file.text:
+                file.text = f
+        for file in root.findall('.//diaEvidencePaths/string'):
+            f = update_dir(file.text.strip(), diadir)
+            if f != file.text:
+                file.text = f
+        for file in root.findall('.//diaMsmsPaths/string'):
+            f = update_dir(file.text.strip(), diadir)
             if f != file.text:
                 file.text = f
     if threads:
