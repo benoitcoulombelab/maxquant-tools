@@ -25,7 +25,7 @@ def maxquant(parameters, max_cpu, max_mem, maxquant_args, mail):
     mem = min(samples * 5, max_mem)  # 5GB of memory per samples
     mem = max(mem, 6)  # Minimum of 6GB of memory
     cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL',
-           '--mail-user=' + mail, 'maxquant.sh'] + list(maxquant_args)
+           '--mail-user=' + mail, 'maxquant.sh', '-p', str(parameters)] + list(maxquant_args)
     subprocess.run(cmd, check=True)
 
 
