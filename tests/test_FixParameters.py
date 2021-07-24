@@ -6,6 +6,36 @@ from click.testing import CliRunner
 from maxquanttools import FixParameters
 
 
+def test_fixparameters_relativepaths(pytester):
+    parent = Path(__file__).parent
+    parameters = parent.joinpath('mqpar-windows.xml')
+    rawdir = Path('maxquant_test')
+    fastadir = Path('fastas')
+    diadir = Path('dia')
+    runner = CliRunner()
+    result = runner.invoke(FixParameters.fixparameters,
+                           ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
+    assert 0 == result.exit_code
+    root = ElementTree.fromstring(result.output)
+    print()
+    assert pytester.path.joinpath(fastadir).joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(
+        root.find('.//fastaFilePath').text)
+    assert pytester.path.joinpath(rawdir).joinpath('OF_20190610_COU_01.raw') == Path(
+        root.find('./filePaths/string[1]').text)
+    assert pytester.path.joinpath(rawdir).joinpath('OF_20190610_COU_02.raw') == Path(
+        root.find('./filePaths/string[2]').text)
+    assert pytester.path.joinpath(diadir).joinpath('spectral_library.tsv') == Path(
+        root.find('.//diaLibraryPath/string[1]').text)
+    assert pytester.path.joinpath(diadir).joinpath('peptides.txt') == Path(
+        root.find('.//diaPeptidePaths/string[1]').text)
+    assert pytester.path.joinpath(diadir).joinpath('evidence.txt') == Path(
+        root.find('.//diaEvidencePaths/string[1]').text)
+    assert pytester.path.joinpath(diadir).joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
+    assert '2' == root.find('.//numThreads').text
+    assert 'False' == root.find('.//useDotNetCore').text
+    assert 'True' == root.find('.//writeMzTab').text
+
+
 def test_fixparameters_windows(testdir):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')

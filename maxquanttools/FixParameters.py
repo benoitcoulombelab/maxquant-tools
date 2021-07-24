@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path, PureWindowsPath
 from xml.etree import ElementTree
@@ -75,6 +76,8 @@ def fixparameters(parameters, rawdir, fastadir, diadir, threads, disable_core, o
 def update_dir(file, directory):
     """Updates file's directory with directory."""
     file = create_path(file)
+    if not path_is_abs(directory):
+        directory = os.path.abspath(directory)
     directory = create_path(directory)
     return str(directory.joinpath(file.name))
 
@@ -85,6 +88,9 @@ def create_path(path):
         return PureWindowsPath(path)
     else:
         return Path(path)
+
+
+def path_is_abs(p): return (len(p) > 0 and p[0] == '/') or (len(p) > 1 and p[1] == ':')
 
 
 if __name__ == '__main__':
