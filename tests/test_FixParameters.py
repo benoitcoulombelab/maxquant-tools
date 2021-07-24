@@ -15,25 +15,24 @@ def test_fixparameters_relativepaths(pytester):
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    print()
-    assert pytester.path.joinpath(fastadir).joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(
-        root.find('.//fastaFilePath').text)
-    assert pytester.path.joinpath(rawdir).joinpath('OF_20190610_COU_01.raw') == Path(
-        root.find('./filePaths/string[1]').text)
-    assert pytester.path.joinpath(rawdir).joinpath('OF_20190610_COU_02.raw') == Path(
-        root.find('./filePaths/string[2]').text)
-    assert pytester.path.joinpath(diadir).joinpath('spectral_library.tsv') == Path(
-        root.find('.//diaLibraryPath/string[1]').text)
-    assert pytester.path.joinpath(diadir).joinpath('peptides.txt') == Path(
-        root.find('.//diaPeptidePaths/string[1]').text)
-    assert pytester.path.joinpath(diadir).joinpath('evidence.txt') == Path(
-        root.find('.//diaEvidencePaths/string[1]').text)
-    assert pytester.path.joinpath(diadir).joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == pytester.path.joinpath(fastadir).joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == pytester.path.joinpath(rawdir).joinpath(
+        'OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == pytester.path.joinpath(rawdir).joinpath(
+        'OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == pytester.path.joinpath(diadir).joinpath(
+        'spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == pytester.path.joinpath(diadir).joinpath(
+        'peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == pytester.path.joinpath(diadir).joinpath(
+        'evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == pytester.path.joinpath(diadir).joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windows(testdir):
@@ -45,19 +44,19 @@ def test_fixparameters_windows(testdir):
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windowsnofastadir(testdir):
@@ -66,19 +65,19 @@ def test_fixparameters_windowsnofastadir(testdir):
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters, ['-p', parameters, '-d', str(rawdir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert rawdir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert rawdir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert rawdir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert rawdir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert rawdir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == rawdir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == rawdir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == rawdir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == rawdir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == rawdir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windowsandthreads(testdir):
@@ -91,19 +90,19 @@ def test_fixparameters_windowsandthreads(testdir):
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir), '-t',
                             '4'])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '4' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '4'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windows2linux(testdir):
@@ -115,18 +114,19 @@ def test_fixparameters_windows2linux(testdir):
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta'), Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windowskeepcore(testdir):
@@ -139,19 +139,19 @@ def test_fixparameters_windowskeepcore(testdir):
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir),
                             '--keep-core'])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'True' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'True'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windows2linuxnofastadir(testdir):
@@ -160,18 +160,19 @@ def test_fixparameters_windows2linuxnofastadir(testdir):
     rawdir = Path('/home/poitrac/maxquant_test')
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters, ['-p', parameters, '-d', str(rawdir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert rawdir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert rawdir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert rawdir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert rawdir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert rawdir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == rawdir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == rawdir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == rawdir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == rawdir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == rawdir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_windows2linuxandthreads(testdir):
@@ -184,18 +185,19 @@ def test_fixparameters_windows2linuxandthreads(testdir):
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir), '-t',
                             '4'])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta'), Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '4' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '4'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linux(testdir):
@@ -207,18 +209,19 @@ def test_fixparameters_linux(testdir):
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linuxnofastadir(testdir):
@@ -227,18 +230,19 @@ def test_fixparameters_linuxnofastadir(testdir):
     rawdir = Path('/home/poitrac/maxquant_test')
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters, ['-p', parameters, '-d', str(rawdir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert rawdir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert rawdir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert rawdir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert rawdir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert rawdir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == rawdir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == rawdir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == rawdir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == rawdir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == rawdir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linuxandthreads(testdir):
@@ -251,18 +255,19 @@ def test_fixparameters_linuxandthreads(testdir):
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir), '-t',
                             '4'])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == Path(root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == Path(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == Path(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == Path(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == Path(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == Path(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == Path(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '4' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert Path(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '4'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linux2windowds(testdir):
@@ -274,19 +279,19 @@ def test_fixparameters_linux2windowds(testdir):
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linux2windowdsnofastadir(testdir):
@@ -295,19 +300,19 @@ def test_fixparameters_linux2windowdsnofastadir(testdir):
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
     runner = CliRunner()
     result = runner.invoke(FixParameters.fixparameters, ['-p', parameters, '-d', str(rawdir)])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert rawdir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert rawdir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert rawdir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert rawdir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert rawdir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '2' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == rawdir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == rawdir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == rawdir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == rawdir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == rawdir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
 
 
 def test_fixparameters_linux2windowdsandthreads(testdir):
@@ -320,16 +325,16 @@ def test_fixparameters_linux2windowdsandthreads(testdir):
     result = runner.invoke(FixParameters.fixparameters,
                            ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir), '-t',
                             '4'])
-    assert 0 == result.exit_code
+    assert result.exit_code == 0
     root = ElementTree.fromstring(result.output)
-    assert fastadir.joinpath('SwissProt_Human_txid9606_20190424.fasta') == PureWindowsPath(
-        root.find('.//fastaFilePath').text)
-    assert rawdir.joinpath('OF_20190610_COU_01.raw') == PureWindowsPath(root.find('./filePaths/string[1]').text)
-    assert rawdir.joinpath('OF_20190610_COU_02.raw') == PureWindowsPath(root.find('./filePaths/string[2]').text)
-    assert diadir.joinpath('spectral_library.tsv') == PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text)
-    assert diadir.joinpath('peptides.txt') == PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text)
-    assert diadir.joinpath('evidence.txt') == PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text)
-    assert diadir.joinpath('msms.txt') == PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text)
-    assert '4' == root.find('.//numThreads').text
-    assert 'False' == root.find('.//useDotNetCore').text
-    assert 'True' == root.find('.//writeMzTab').text
+    assert PureWindowsPath(root.find('.//fastaFilePath').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert PureWindowsPath(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert PureWindowsPath(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert PureWindowsPath(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert PureWindowsPath(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert PureWindowsPath(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert PureWindowsPath(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '4'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'
