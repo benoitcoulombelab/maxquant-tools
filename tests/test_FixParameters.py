@@ -35,7 +35,7 @@ def test_fixparameters_relativepaths(pytester):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windows(testdir):
+def test_fixparameters_windows(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -59,7 +59,7 @@ def test_fixparameters_windows(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windowsnofastadir(testdir):
+def test_fixparameters_windowsnofastadir(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -80,7 +80,7 @@ def test_fixparameters_windowsnofastadir(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windowsandthreads(testdir):
+def test_fixparameters_windowsandthreads(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -105,7 +105,7 @@ def test_fixparameters_windowsandthreads(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windows2linux(testdir):
+def test_fixparameters_windows2linux(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -129,7 +129,7 @@ def test_fixparameters_windows2linux(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windowskeepcore(testdir):
+def test_fixparameters_windowskeepcore(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -154,7 +154,7 @@ def test_fixparameters_windowskeepcore(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windows2linuxnofastadir(testdir):
+def test_fixparameters_windows2linuxnofastadir(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -175,7 +175,7 @@ def test_fixparameters_windows2linuxnofastadir(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_windows2linuxandthreads(testdir):
+def test_fixparameters_windows2linuxandthreads(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-windows.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -200,7 +200,7 @@ def test_fixparameters_windows2linuxandthreads(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linux(testdir):
+def test_fixparameters_linux(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -224,7 +224,7 @@ def test_fixparameters_linux(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linuxnofastadir(testdir):
+def test_fixparameters_linuxnofastadir(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -245,7 +245,7 @@ def test_fixparameters_linuxnofastadir(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linuxandthreads(testdir):
+def test_fixparameters_linuxandthreads(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = Path('/home/poitrac/maxquant_test')
@@ -270,7 +270,7 @@ def test_fixparameters_linuxandthreads(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linux2windowds(testdir):
+def test_fixparameters_linux2windowds(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -294,7 +294,7 @@ def test_fixparameters_linux2windowds(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linux2windowdsnofastadir(testdir):
+def test_fixparameters_linux2windowdsnofastadir(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')
@@ -315,7 +315,7 @@ def test_fixparameters_linux2windowdsnofastadir(testdir):
     assert root.find('.//writeMzTab').text == 'True'
 
 
-def test_fixparameters_linux2windowdsandthreads(testdir):
+def test_fixparameters_linux2windowdsandthreads(pytester):
     parent = Path(__file__).parent
     parameters = parent.joinpath('mqpar-linux.xml')
     rawdir = PureWindowsPath('C:\\home\\poitrac\\maxquant_test')

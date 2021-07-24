@@ -20,7 +20,7 @@ def mock_env_mail(monkeypatch):
     monkeypatch.setenv('JOB_MAIL', 'christian.poitras@ircm.qc.ca')
 
 
-def test_maxquant(testdir, mock_testclass):
+def test_maxquant(pytester, mock_testclass):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
@@ -33,7 +33,7 @@ def test_maxquant(testdir, mock_testclass):
         check=True)
 
 
-def test_maxquant_parameters(testdir, mock_testclass):
+def test_maxquant_parameters(pytester, mock_testclass):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
@@ -46,7 +46,7 @@ def test_maxquant_parameters(testdir, mock_testclass):
         check=True)
 
 
-def test_maxquant_minimum_memory(testdir, mock_testclass):
+def test_maxquant_minimum_memory(pytester, mock_testclass):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'christian.poitras@ircm.qc.ca'
     subprocess.run = MagicMock()
@@ -59,7 +59,7 @@ def test_maxquant_minimum_memory(testdir, mock_testclass):
         check=True)
 
 
-def test_maxquant_mailenv(testdir, mock_testclass, mock_env_mail):
+def test_maxquant_mailenv(pytester, mock_testclass, mock_env_mail):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     subprocess.run = MagicMock()
     runner = CliRunner()
@@ -70,7 +70,7 @@ def test_maxquant_mailenv(testdir, mock_testclass, mock_env_mail):
          'maxquant.sh', '-p', str(parameters)], check=True)
 
 
-def test_maxquant_mailenvandparameter(testdir, mock_testclass, mock_env_mail):
+def test_maxquant_mailenvandparameter(pytester, mock_testclass, mock_env_mail):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'test@ircm.qc.ca'
     subprocess.run = MagicMock()
