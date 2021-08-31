@@ -22,8 +22,10 @@ from maxquanttools import FixParameters
               help='Email address for notification.')
 @click.option('--parameters-output', type=click.Path(), default='mqpar-run.xml', show_default=True,
               help='Where to write modified file. Defaults to mqpar-run.xml.')
+@click.option('--dryrun', '-n', is_flag=True,
+              help='Print job ids and job names table.')
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
-def maxquant(parameters, rawdir, max_threads, max_mem, maxquant_args, mail, parameters_output):
+def maxquant(parameters, rawdir, max_threads, max_mem, maxquant_args, mail, parameters_output, dryrun):
     """Fixes parameter file and starts MaxQuant using sbatch."""
     tree = ElementTree.parse(parameters)
     root = tree.getroot()
@@ -34,8 +36,11 @@ def maxquant(parameters, rawdir, max_threads, max_mem, maxquant_args, mail, para
     if not rawdir:
         rawdir = os.getcwd()
     FixParameters.fixparameters_(parameters, rawdir=rawdir, threads=threads, output=parameters_output)
-    cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL',
-           '--mail-user=' + mail, 'maxquantcmd-mono.sh'] + list(maxquant_args) + [str(parameters_output)]
+    if dryrun:
+        cmd = ['maxquantcmd-mono.sh', '-n'] + list(maxquant_args) + [str(parameters_output)]
+    else:
+        cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL',
+               '--mail-user=' + mail, 'maxquantcmd-mono.sh'] + list(maxquant_args) + [str(parameters_output)]
     subprocess.run(cmd, check=True)
 
 

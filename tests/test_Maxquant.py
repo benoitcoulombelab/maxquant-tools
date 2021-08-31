@@ -59,6 +59,21 @@ def test_maxquant_parameters(pytester, mock_testclass):
         check=True)
 
 
+def test_maxquant_dryrun(pytester, mock_testclass):
+    parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
+    mail = 'christian.poitras@ircm.qc.ca'
+    output = 'mqpar-run.xml'
+    FixParameters.fixparameters_ = MagicMock()
+    subprocess.run = MagicMock()
+    runner = CliRunner()
+    result = runner.invoke(Maxquant.maxquant, ['--parameters', parameters, '--mail', mail, '-n'])
+    assert result.exit_code == 0
+    FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=2, output='mqpar-run.xml')
+    subprocess.run.assert_any_call(
+        ['maxquantcmd-mono.sh', '-n', str(output)],
+        check=True)
+
+
 def test_maxquant_minimum_memory(pytester, mock_testclass):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'christian.poitras@ircm.qc.ca'
