@@ -1,9 +1,9 @@
 import os
-import sys
 from pathlib import Path, PureWindowsPath
 from xml.etree import ElementTree
 
 import click
+import sys
 
 
 @click.command()
@@ -24,6 +24,12 @@ import click
 @click.option('--output', '-o', type=click.Path(),
               help='Where to write modified file. Defaults to standard output.')
 def fixparameters(parameters, rawdir, fastadir, diadir, threads, disable_core, output):
+    """Fixes MaxQuant parameters by replacing directories and fixing threads."""
+    fixparameters_(parameters, rawdir, fastadir, diadir, threads, disable_core, output)
+
+
+def fixparameters_(parameters='mqpar.xml', rawdir=None, fastadir=None, diadir=None, threads=None, disable_core=True,
+                   output=None):
     """Fixes MaxQuant parameters by replacing directories and fixing threads."""
     if not fastadir and rawdir:
         fastadir = rawdir
