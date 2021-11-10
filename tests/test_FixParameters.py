@@ -338,3 +338,27 @@ def test_fixparameters_linux2windowdsandthreads(pytester):
     assert root.find('.//numThreads').text == '4'
     assert root.find('.//useDotNetCore').text == 'False'
     assert root.find('.//writeMzTab').text == 'True'
+
+
+def test_fixparameters_linux_160(pytester):
+    parent = Path(__file__).parent
+    parameters = parent.joinpath('mqpar-linux-1.6.0.xml')
+    rawdir = Path('/home/poitrac/maxquant_test')
+    fastadir = Path('/home/poitrac/fastas')
+    diadir = Path('/home/poitrac/dia')
+    runner = CliRunner()
+    result = runner.invoke(FixParameters.fixparameters,
+                           ['-p', parameters, '-d', str(rawdir), '-fd', str(fastadir), '--diadir', str(diadir)])
+    assert result.exit_code == 0
+    root = ElementTree.fromstring(result.output)
+    assert Path(root.find('.//fastaFiles/string[1]').text) == fastadir.joinpath(
+        'SwissProt_Human_txid9606_20190424.fasta')
+    assert Path(root.find('./filePaths/string[1]').text) == rawdir.joinpath('OF_20190610_COU_01.raw')
+    assert Path(root.find('./filePaths/string[2]').text) == rawdir.joinpath('OF_20190610_COU_02.raw')
+    assert Path(root.find('.//diaLibraryPath/string[1]').text) == diadir.joinpath('spectral_library.tsv')
+    assert Path(root.find('.//diaPeptidePaths/string[1]').text) == diadir.joinpath('peptides.txt')
+    assert Path(root.find('.//diaEvidencePaths/string[1]').text) == diadir.joinpath('evidence.txt')
+    assert Path(root.find('.//diaMsmsPaths/string[1]').text) == diadir.joinpath('msms.txt')
+    assert root.find('.//numThreads').text == '2'
+    assert root.find('.//useDotNetCore').text == 'False'
+    assert root.find('.//writeMzTab').text == 'True'

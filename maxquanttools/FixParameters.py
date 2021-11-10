@@ -40,7 +40,10 @@ def fixparameters_(parameters='mqpar.xml', rawdir=None, fastadir=None, diadir=No
     tree = ElementTree.parse(parameters)
     root = tree.getroot()
     if fastadir:
-        for fasta_file_path in root.findall('.//fastaFilePath'):
+        fastas = root.findall('.//fastaFilePath')
+        # Older MaxQuant versions
+        fastas.extend(root.findall('.//fastaFiles/string'))
+        for fasta_file_path in fastas:
             fasta = update_dir(fasta_file_path.text.strip(), fastadir)
             if fasta != fasta_file_path.text:
                 fasta_file_path.text = fasta
