@@ -1,8 +1,9 @@
 import os
 import subprocess
-from xml.etree import ElementTree
+import logging
 
 import click
+import yaml
 
 from maxquanttools import FixParameters
 
@@ -14,10 +15,6 @@ from maxquanttools import FixParameters
               help='MaxQuant parameter file.')
 @click.option('--rawdir', type=click.Path(),
               help='Directory to use for RAW and FASTA files. Defaults to working directory.')
-@click.option('--max-threads', type=int, default=40, show_default=True,
-              help='Maximum number of CPUs for SBATCH.')
-@click.option('--max-mem', type=int, default=185, show_default=True,
-              help='Maximum amount of memory for SBATCH in gigabytes.')
 @click.option('--mail', envvar='JOB_MAIL', required=True,
               help='Email address for notification.')
 @click.option('--parameters-output', type=click.Path(), default='mqpar-run.xml', show_default=True,
@@ -25,14 +22,24 @@ from maxquanttools import FixParameters
 @click.option('--dryrun', '-n', is_flag=True,
               help='Print job ids and job names table.')
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
-def maxquant(parameters, rawdir, max_threads, max_mem, maxquant_args, mail, parameters_output, dryrun):
+def maxquant(parameters, rawdir, maxquant_args, mail, parameters_output, dryrun):
     """Fixes parameter file and starts MaxQuant using sbatch."""
-    tree = ElementTree.parse(parameters)
-    root = tree.getroot()
-    samples = len(root.findall('./filePaths/string'))
-    threads = min(samples, max_threads)  # One thread per sample
-    mem = min(samples * 5, max_mem)  # 5GB of memory per samples
-    mem = max(mem, 6)  # Minimum of 6GB of memory
+    logging.basicConfig(filename='maxquant-tools.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    config = {'threads': 24, 'memory': 120}
+    user_config = 'maxquant.yml'
+    if 'CC_CLUSTER' in os.environ:
+        base_config = os.path.abspath(os.path.dirname(__file__)) + '/' + os.environ['CC_CLUSTER'] + '.yml'
+        if os.path.exists(base_config):
+            logging.debug('loading config file {}'.format(base_config))
+            with open(base_config) as input:
+                config = yaml.safe_load(input)
+    if os.path.exists(user_config):
+        logging.debug('loading config file {}'.format(user_config))
+        with open(user_config) as input:
+            config = yaml.safe_load(input)
+    logging.debug('config is {}'.format(config))
+    threads = max(config['threads'], 1)  # At least one thread
+    mem = max(config['memory'], 6)  # Minimum of 6GB of memory
     if not rawdir:
         rawdir = os.getcwd()
     FixParameters.fixparameters_(parameters, rawdir=rawdir, threads=threads, output=parameters_output)

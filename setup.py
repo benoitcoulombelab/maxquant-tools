@@ -15,7 +15,8 @@ setup(
     ],
     python_requires='>=3.7.4',
     install_requires=[
-        'click>=7.0'
+        'click>=7.0',
+        'PyYAML>=6.0'
     ],
     entry_points={
         'console_scripts': [
