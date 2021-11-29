@@ -23,5 +23,6 @@ setup(
             'fixparameters = maxquanttools.FixParameters:fixparameters',
             'maxquant = maxquanttools.Maxquant:maxquant',
         ]
-    }
+    },
+    include_package_data=True,
 )
