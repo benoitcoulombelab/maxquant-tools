@@ -1,4 +1,1 @@
-include LICENSE
-include maxquanttools/beluga.yml
 include maxquanttools/*.yml
-include *.yml
