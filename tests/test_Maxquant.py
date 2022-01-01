@@ -64,6 +64,22 @@ def test_maxquant_parameters(pytester, mock_testclass):
         check=True)
 
 
+def test_maxquant_ignoremail(pytester, mock_testclass):
+    parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
+    output = 'mqpar-run.xml'
+    FixParameters.fixparameters_ = MagicMock()
+    subprocess.run = MagicMock()
+    runner = CliRunner()
+    result = runner.invoke(Maxquant.maxquant,
+                           ['--parameters', parameters, '--ignore-mail'])
+    assert result.exit_code == 0
+    FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
+    subprocess.run.assert_any_call(
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', 'maxquantcmd-mono.sh',
+         str(output)],
+        check=True)
+
+
 def test_maxquant_beluga(pytester, mock_testclass, beluga):
     parameters = Path(__file__).parent.joinpath('mqpar-windows.xml')
     mail = 'christian.poitras@ircm.qc.ca'

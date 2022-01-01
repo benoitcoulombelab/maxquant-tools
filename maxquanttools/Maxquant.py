@@ -10,7 +10,8 @@ from maxquanttools import FixParameters
 
 def validate_mail(ctx, param, value):
     """Validates that mail is supplied"""
-    if not value:
+    send_mail = ctx.params['send_mail'] if 'send_mail' in ctx.params else True
+    if send_mail and not value:
         raise click.BadParameter('No email address in \'JOB_MAIL\' environment variable, use --mail parameter instead')
     else:
         return value
@@ -23,14 +24,16 @@ def validate_mail(ctx, param, value):
               help='MaxQuant parameter file.')
 @click.option('--rawdir', type=click.Path(),
               help='Directory to use for RAW and FASTA files. Defaults to working directory.')
+@click.option('--send-mail/--ignore-mail', default=True,
+              help='Send email notifications.')
 @click.option('--mail', envvar='JOB_MAIL', callback=validate_mail,
-              help='Email address for notification.')
+              help='Email address for notifications.')
 @click.option('--parameters-output', type=click.Path(), default='mqpar-run.xml', show_default=True,
               help='Where to write modified file. Defaults to mqpar-run.xml.')
 @click.option('--dryrun', '-n', is_flag=True,
               help='Print job ids and job names table.')
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
-def maxquant(parameters, rawdir, maxquant_args, mail, parameters_output, dryrun):
+def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_output, dryrun):
     """Fixes parameter file and starts MaxQuant using sbatch."""
     logging.basicConfig(filename='maxquant-tools.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     config = {'threads': 24, 'memory': 120}
@@ -51,11 +54,16 @@ def maxquant(parameters, rawdir, maxquant_args, mail, parameters_output, dryrun)
     if not rawdir:
         rawdir = os.getcwd()
     FixParameters.fixparameters_(parameters, rawdir=rawdir, threads=threads, output=parameters_output)
+    cmd = []
+    if not dryrun:
+        cmd.extend(['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G'])
+        if send_mail:
+            cmd.extend(['--mail-type=ALL', '--mail-user=' + mail])
+    cmd.append('maxquantcmd-mono.sh')
     if dryrun:
-        cmd = ['maxquantcmd-mono.sh', '-n'] + list(maxquant_args) + [str(parameters_output)]
-    else:
-        cmd = ['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G', '--mail-type=ALL',
-               '--mail-user=' + mail, 'maxquantcmd-mono.sh'] + list(maxquant_args) + [str(parameters_output)]
+        cmd.append('-n')
+    cmd.extend(list(maxquant_args))
+    cmd.append(str(parameters_output))
     subprocess.run(cmd, check=True)
 
 
