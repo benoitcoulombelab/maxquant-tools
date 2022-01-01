@@ -8,6 +8,14 @@ import yaml
 from maxquanttools import FixParameters
 
 
+def validate_mail(ctx, param, value):
+    """Validates that mail is supplied"""
+    if not value:
+        raise click.BadParameter('No email address in \'JOB_MAIL\' environment variable, use --mail parameter instead')
+    else:
+        return value
+
+
 @click.command(context_settings=dict(
     ignore_unknown_options=True,
 ))
@@ -15,7 +23,7 @@ from maxquanttools import FixParameters
               help='MaxQuant parameter file.')
 @click.option('--rawdir', type=click.Path(),
               help='Directory to use for RAW and FASTA files. Defaults to working directory.')
-@click.option('--mail', envvar='JOB_MAIL', required=True,
+@click.option('--mail', envvar='JOB_MAIL', callback=validate_mail,
               help='Email address for notification.')
 @click.option('--parameters-output', type=click.Path(), default='mqpar-run.xml', show_default=True,
               help='Where to write modified file. Defaults to mqpar-run.xml.')
