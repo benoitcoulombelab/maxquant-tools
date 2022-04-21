@@ -1,6 +1,6 @@
+import logging
 import os
 import subprocess
-import logging
 
 import click
 import yaml
@@ -35,7 +35,8 @@ def validate_mail(ctx, param, value):
 @click.argument('maxquant_args', nargs=-1, type=click.UNPROCESSED)
 def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_output, dryrun):
     """Fixes parameter file and starts MaxQuant using sbatch."""
-    logging.basicConfig(filename='maxquant-tools.log', level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    logging.basicConfig(filename='maxquant-tools.log', level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     config = {'threads': 24, 'memory': 120}
     user_config = 'maxquant.yml'
     if 'CC_CLUSTER' in os.environ:
@@ -54,12 +55,17 @@ def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_outp
     if not rawdir:
         rawdir = os.getcwd()
     FixParameters.fixparameters_(parameters, rawdir=rawdir, threads=threads, output=parameters_output)
+    executable = 'maxquantcmd-mono.sh'
+    logging.debug('test')
+    if 'MAXQUANT' in os.environ and os.path.exists(
+            os.environ.get('MAXQUANT') + '/maxquant-' + os.environ.get('MAXQUANT_VERSION') + '.sif'):
+        executable = 'maxquantcmd-singularity.sh'
     cmd = []
     if not dryrun:
         cmd.extend(['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G'])
         if send_mail:
             cmd.extend(['--mail-type=ALL', '--mail-user=' + mail])
-    cmd.append('maxquantcmd-mono.sh')
+    cmd.append(executable)
     if dryrun:
         cmd.append('-n')
     cmd.extend(list(maxquant_args))
