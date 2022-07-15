@@ -56,7 +56,6 @@ def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_outp
         rawdir = os.getcwd()
     FixParameters.fixparameters_(parameters, rawdir=rawdir, threads=threads, output=parameters_output)
     executable = 'maxquantcmd-mono.sh'
-    logging.debug('test')
     if 'MAXQUANT' in os.environ and os.path.exists(
             os.environ.get('MAXQUANT') + '/maxquant-' + os.environ.get('MAXQUANT_VERSION') + '.sif'):
         executable = 'maxquantcmd-singularity.sh'
@@ -70,6 +69,7 @@ def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_outp
         cmd.append('-n')
     cmd.extend(list(maxquant_args))
     cmd.append(str(parameters_output))
+    logging.debug('Running {}'.format(cmd))
     subprocess.run(cmd, check=True)
 
 
