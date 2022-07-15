@@ -5,6 +5,11 @@
 #SBATCH --output=maxquant-%A.out
 #SBATCH --error=maxquant-%A.out
 
+scratch=$(readlink -f ~/scratch)
+project=(~/projects/*)
+project=${project[0]}
+project=$(readlink -f "$project/..")
+
 bind_args=()
 if [ -d conf ]
 then
@@ -22,7 +27,7 @@ then
 fi
 
 singularity run \
-  -B /scratch,/project,/home \
+  -B /home,$scratch,$project \
   "${bind_args[@]}" \
   "$MAXQUANT/maxquant-$MAXQUANT_VERSION.sif" \
   "${args[@]}"
