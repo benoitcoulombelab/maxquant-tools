@@ -1,7 +1,8 @@
-import click
 import logging
 import os
 import subprocess
+
+import click
 import yaml
 
 from maxquanttools import FixParameters
@@ -62,7 +63,7 @@ def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_outp
     if not dryrun:
         cmd.extend(['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G'])
         if send_mail:
-            cmd.extend(['--mail-type=ALL', '--mail-user=' + mail])
+            cmd.extend(['--mail-type=END,FAIL', '--mail-user=' + mail])
     cmd.append(executable)
     if dryrun:
         cmd.append('-n')
