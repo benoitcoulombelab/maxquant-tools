@@ -1,10 +1,11 @@
 import logging
 import os
-import pytest
 import subprocess
-from click.testing import CliRunner
 from pathlib import Path
 from unittest.mock import MagicMock
+
+import pytest
+from click.testing import CliRunner
 
 from maxquanttools import Maxquant, FixParameters
 
@@ -45,7 +46,8 @@ def test_maxquant(pytester, mock_testclass):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -64,7 +66,8 @@ def test_maxquant_parameters(pytester, mock_testclass):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=rawdir, threads=24, output=output)
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          '-p', '18', '-e', '20',
          str(output)],
         check=True)
@@ -97,7 +100,8 @@ def test_maxquant_beluga(pytester, mock_testclass, beluga):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=40, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=40', '--mem=180G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=40', '--mem=180G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -117,7 +121,8 @@ def test_maxquant_config(pytester, mock_testclass):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=48, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=48', '--mem=185G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=48', '--mem=185G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -137,7 +142,8 @@ def test_maxquant_belugaandconfig(pytester, mock_testclass, beluga):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=48, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=48', '--mem=185G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=48', '--mem=185G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -172,7 +178,8 @@ def test_maxquant_minimum_memory(pytester, mock_testclass):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=1, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=1', '--mem=6G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=1', '--mem=6G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -192,7 +199,8 @@ def test_maxquant_minimum_threads(pytester, mock_testclass):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=1, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=1', '--mem=60G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=1', '--mem=60G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
 
@@ -211,7 +219,8 @@ def test_maxquant_module(pytester, mock_testclass, mock_env_maxquant_module):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL',
+         '--mail-user=christian.poitras@ircm.qc.ca',
          'maxquantcmd-apptainer.sh', str(output)], check=True)
 
 
@@ -227,7 +236,8 @@ def test_maxquant_module_nocontainer(pytester, mock_testclass, mock_env_maxquant
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL',
+         '--mail-user=christian.poitras@ircm.qc.ca',
          'maxquantcmd-mono.sh', str(output)], check=True)
 
 
@@ -241,7 +251,8 @@ def test_maxquant_mailenv(pytester, mock_testclass, mock_env_mail):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL',
+         '--mail-user=christian.poitras@ircm.qc.ca',
          'maxquantcmd-mono.sh', str(output)], check=True)
 
 
@@ -256,6 +267,7 @@ def test_maxquant_mailenvandparameter(pytester, mock_testclass, mock_env_mail):
     assert result.exit_code == 0
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
-        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=' + mail, 'maxquantcmd-mono.sh',
+        ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=END,FAIL', '--mail-user=' + mail,
+         'maxquantcmd-mono.sh',
          str(output)],
         check=True)
