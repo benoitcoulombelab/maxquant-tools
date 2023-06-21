@@ -1,11 +1,10 @@
 import logging
 import os
+import pytest
 import subprocess
+from click.testing import CliRunner
 from pathlib import Path
 from unittest.mock import MagicMock
-
-import pytest
-from click.testing import CliRunner
 
 from maxquanttools import Maxquant, FixParameters
 
@@ -213,7 +212,7 @@ def test_maxquant_module(pytester, mock_testclass, mock_env_maxquant_module):
     FixParameters.fixparameters_.assert_any_call(parameters, rawdir=os.getcwd(), threads=24, output='mqpar-run.xml')
     subprocess.run.assert_any_call(
         ['sbatch', '--cpus-per-task=24', '--mem=120G', '--mail-type=ALL', '--mail-user=christian.poitras@ircm.qc.ca',
-         'maxquantcmd-singularity.sh', str(output)], check=True)
+         'maxquantcmd-apptainer.sh', str(output)], check=True)
 
 
 def test_maxquant_module_nocontainer(pytester, mock_testclass, mock_env_maxquant_module):

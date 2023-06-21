@@ -1,8 +1,7 @@
+import click
 import logging
 import os
 import subprocess
-
-import click
 import yaml
 
 from maxquanttools import FixParameters
@@ -58,7 +57,7 @@ def maxquant(parameters, rawdir, maxquant_args, send_mail, mail, parameters_outp
     executable = 'maxquantcmd-mono.sh'
     if 'MAXQUANT' in os.environ and os.path.exists(
             os.environ.get('MAXQUANT') + '/maxquant-' + os.environ.get('MAXQUANT_VERSION') + '.sif'):
-        executable = 'maxquantcmd-singularity.sh'
+        executable = 'maxquantcmd-apptainer.sh'
     cmd = []
     if not dryrun:
         cmd.extend(['sbatch', '--cpus-per-task=' + str(threads), '--mem=' + str(mem) + 'G'])

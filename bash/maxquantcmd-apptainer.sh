@@ -22,7 +22,7 @@ then
     filename=$(basename "$file")
     bind_args+=("-B" "$file:/opt/MaxQuant/bin/conf/$filename")
   done
-  echo "Extra bind arguments for singularity are: " "${bind_args[@]}"
+  echo "Extra bind arguments for apptainer are: " "${bind_args[@]}"
 fi
 args+=("$@")
 if [ $# -eq 0 ]
@@ -30,7 +30,7 @@ then
   args+=("--help")
 fi
 
-singularity run \
+apptainer run \
   -C -W "$workdir" --pwd "$PWD" \
   -B "$home","$scratch","$project" \
   "${bind_args[@]}" \
