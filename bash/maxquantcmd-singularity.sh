@@ -5,10 +5,14 @@
 #SBATCH --output=maxquant-%A.out
 #SBATCH --error=maxquant-%A.out
 
+set -e
+
+home=$(readlink -f ~)
 scratch=$(readlink -f ~/scratch)
 project=(~/projects/*)
 project=${project[0]}
 project=$(readlink -f "$project/..")
+workdir="${SLURM_TMPDIR:-$PWD}"
 
 bind_args=()
 if [ -d conf ]
@@ -27,7 +31,8 @@ then
 fi
 
 singularity run \
-  -B /home,$scratch,$project \
+  -C -W "$workdir" --pwd "$PWD" \
+  -B "$home","$scratch","$project" \
   "${bind_args[@]}" \
   "$MAXQUANT/maxquant-$MAXQUANT_VERSION.sif" \
   "${args[@]}"
